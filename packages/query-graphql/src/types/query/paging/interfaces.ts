@@ -7,6 +7,7 @@ export interface CursorPagingType extends Paging {
   after?: ConnectionCursorType;
   first?: number;
   last?: number;
+  offset?: number;
 }
 export type NonePagingType = Paging;
 export type OffsetPagingType = Paging;

@@ -22,6 +22,7 @@ export type KeySetCursorPayload<DTO> = {
 export interface KeySetPagingOpts<DTO> {
   payload?: KeySetCursorPayload<DTO>;
   limit: number;
+  offset: number;
   defaultSort: SortField<DTO>[];
   isForward: boolean;
   isBackward: boolean;

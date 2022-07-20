@@ -15,6 +15,8 @@ export class KeysetPagerStrategy<DTO> implements PagerStrategy<DTO> {
     const hasBefore = hasBeforeCursor(cursor);
     let payload;
     let limit = 0;
+    const offset = cursor.offset ?? 0;
+    
     if (isForwardPaging(cursor)) {
       payload = cursor.after ? this.decodeCursor(cursor.after) : undefined;
       limit = cursor.first ?? 0;
@@ -23,7 +25,7 @@ export class KeysetPagerStrategy<DTO> implements PagerStrategy<DTO> {
       payload = cursor.before ? this.decodeCursor(cursor.before) : undefined;
       limit = cursor.last ?? 0;
     }
-    return { payload, defaultSort, limit, isBackward, isForward, hasBefore };
+    return { payload, defaultSort, limit, offset, isBackward, isForward, hasBefore };
   }
 
   toCursor(dto: DTO, index: number, opts: KeySetPagingOpts<DTO>, query: Query<DTO>): string {
@@ -39,7 +41,7 @@ export class KeysetPagerStrategy<DTO> implements PagerStrategy<DTO> {
   }
 
   createQuery<Q extends Query<DTO>>(query: Q, opts: KeySetPagingOpts<DTO>, includeExtraNode: boolean): Q {
-    const paging = { limit: opts.limit };
+    const paging = { limit: opts.limit , offset: opts.offset};
     if (includeExtraNode) {
       // Add 1 to the limit so we will fetch an additional node
       paging.limit += 1;

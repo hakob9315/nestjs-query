@@ -53,6 +53,12 @@ export const getOrCreateCursorPagingType = (): Class<CursorPagingType> => {
     @Min(1)
     @IsPositive()
     last?: number;
+    @Field(() => Int, { nullable: true, description: 'Paginate offset' })
+    @IsUndefined()
+    @IsPositive()
+    @Min(0)
+    @Validate(CannotUseWith, ['before', 'after'])
+    offset?: number;
   }
   graphQLCursorPaging = GraphQLCursorPagingImpl;
   return graphQLCursorPaging;
